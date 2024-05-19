@@ -9,7 +9,7 @@ export default function Header() {
 
   return (
     <>
-      <main className="flex flex-col justify-around">
+      <main className="flex flex-col justify-around pb-6" >
         <header className="flex justify-between">
           {isAuthenticated ? (
             <div>

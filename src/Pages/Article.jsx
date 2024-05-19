@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ArticleContext } from "../context/ArticleContext";
 import axios from "axios";
@@ -14,6 +14,8 @@ export default function Article() {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [errMsg, setErrorMsg] = useState("");
 
+  const navigate = useNavigate()
+  
   const handleFormSubmission = async (e) => {
     {
       e.preventDefault();
@@ -38,7 +40,7 @@ export default function Article() {
         );
         setCommentText("");
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
         setErrorMsg(error.message);
       }
     }
@@ -48,6 +50,9 @@ export default function Article() {
     if (articleId) {
       const article = articles.find((article) => article._id === articleId);
       setArticle(article);
+      if (!article) {
+        navigate("/not-found");
+      }
     }
   }, [articles, articleId]);
 

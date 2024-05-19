@@ -1,27 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function usePagination(items, pageLimit) {
   const [page, setPage] = useState(0);
   const pageCount = Math.ceil(items.length / pageLimit);
+  const itemCount = items.length;
 
   const { pageNumber } = useParams();
   const { category } = useParams();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
 
+  useEffect(() => {
+    if (pageCount > 0) {
+      if (pageNumber > pageCount || pageNumber < 1) {
+        navigate("/all/1");
+      }
+    }
+  }, [pageNumber, pageCount]);
 
   useEffect(() => {
     setPage(pageNumber);
   }, [pageNumber]);
 
   const pageChange = (newPage) => {
-    if (category) {
+    if (newPage < 1) {
+      return;
+    }
+    if (category && newPage <= pageCount) {
       navigate(`/${category}/${newPage}`);
     } else {
-      navigate(`/${newPage}`);
+      console.log("invalid page");
+      return;
     }
   };
 
@@ -41,6 +51,7 @@ function usePagination(items, pageLimit) {
   const previousPage = () => {
     // setPage(Math.max(page - 1, 0));
     // console.log("prev page");
+    pageChange(Number(page) - 1);
   };
 
   return {
@@ -50,6 +61,7 @@ function usePagination(items, pageLimit) {
     pageData,
     nextPage,
     previousPage,
+    itemCount,
   };
 }
 

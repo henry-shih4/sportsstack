@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ArticleContext } from "../context/ArticleContext";
 import Pagination from "./Pagination";
@@ -10,6 +10,7 @@ import football from "/images/football.svg";
 export default function Articles() {
   const { articles, loading, error } = useContext(ArticleContext);
   const { category } = useParams();
+  const navigate = useNavigate();
 
   const [filteredArticles, setFilteredArticles] = useState(
     articles.sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -21,6 +22,9 @@ export default function Articles() {
       let items = articles.filter(
         (article) => article.category.toLowerCase() === category.toLowerCase()
       );
+      if (!items || items.length <= 0) {
+        navigate("/not-found");
+      }
       setFilteredArticles(items);
     } else {
       setFilteredArticles(articles);
