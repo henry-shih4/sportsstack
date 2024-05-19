@@ -22,7 +22,7 @@ export default function UserComment(props) {
 
   useEffect(() => {
     getUserComment();
-  }, []);
+  }, [props.userId]);
 
   return (
     <>

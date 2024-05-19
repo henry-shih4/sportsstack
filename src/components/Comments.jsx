@@ -34,7 +34,7 @@ export default function Comments(props) {
           comments
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map((comment) => (
-              <div className="flex gap-x-8  items-center">
+              <div key={comment._id} className="flex gap-x-8  items-center">
                 <UserComment userId={comment.user} />
                 <p className="text-sm">{comment.content}</p>
               </div>
