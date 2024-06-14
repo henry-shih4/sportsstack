@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useParams, useNavigate } from "react-router-dom";
+import { Link, NavLink, useParams, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ArticleContext } from "../context/ArticleContext";
 import Pagination from "./Pagination";
@@ -118,13 +118,13 @@ export default function Articles() {
 
                   <div className="mb-6 mr-auto w-full shrink-0 grow-0 basis-auto px-3 md:mb-0 md:w-9/12 xl:w-7/12">
                     <h5 className="mb-3 text-lg font-bold">
-                      <NavLink
+                      <Link
                         to={`/articles/${article._id}`}
                         className="hover:underline"
                         onClick={() => window.scrollTo(0, 0)}
                       >
                         {article.title}
-                      </NavLink>
+                      </Link>
                     </h5>
                     <div className="mb-3 flex items-center justify-center text-sm font-medium text-blue-600 gap-x-2 md:justify-start">
                       {article.category === "NBA" ? (

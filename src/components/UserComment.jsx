@@ -11,7 +11,6 @@ export default function UserComment(props) {
       );
 
       if (response) {
-        console.log(response);
         setUserComment(response.data.data);
         // setLoading(false);
       }

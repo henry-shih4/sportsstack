@@ -14,8 +14,8 @@ export default function Article() {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [errMsg, setErrorMsg] = useState("");
 
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   const handleFormSubmission = async (e) => {
     {
       e.preventDefault();
@@ -47,12 +47,16 @@ export default function Article() {
   };
 
   useEffect(() => {
-    if (articleId) {
-      const article = articles.find((article) => article._id === articleId);
-      setArticle(article);
-      if (!article) {
-        navigate("/not-found");
+    try {
+      if (articleId) {
+        const article = articles.find((article) => article._id === articleId);
+        setArticle(article);
+        // if (!article) {
+        //   navigate("/not-found");
+        // }
       }
+    } catch {
+      navigate("/not-found");
     }
   }, [articles, articleId]);
 
@@ -126,6 +130,7 @@ export default function Article() {
           </label>
           {errMsg ? <p className="text-red-500">{errMsg}</p> : null}
           <textarea
+            value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
             id="comment-text"
             rows="4"

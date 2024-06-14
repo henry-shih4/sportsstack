@@ -2,7 +2,7 @@ import Articles from "./components/Articles";
 import Article from "./Pages/Article";
 import "./App.css";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Navigate,
