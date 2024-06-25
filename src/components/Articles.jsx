@@ -32,8 +32,6 @@ export default function Articles() {
       //   console.log("not a valid category");
       //   navigate("/not-found");
       // }
-      console.log(category);
-      console.log(categories);
 
       if (categories.includes(category) === false) {
         console.log("not a valid category");

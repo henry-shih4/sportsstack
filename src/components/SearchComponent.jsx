@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ArticleContext } from "../context/ArticleContext";
-import Pagination from "./Pagination";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import baseball from "/images/baseball.svg";
@@ -19,7 +18,9 @@ export default function SearchComponent() {
   const [filteredArticles, setFilteredArticles] = useState([]);
   const navigate = useNavigate();
 
-  //   const [pageArticles, setPageArticles] = useState([]);
+  const [pageArticles, setPageArticles] = useState([]);
+  const [page, setPage] = useState(1);
+  const perPage = 5;
 
   useEffect(() => {
     if (query) {
@@ -34,7 +35,6 @@ export default function SearchComponent() {
       console.log(items);
       setFilteredArticles(items);
     } else {
-      console.log("wtf");
       setFilteredArticles([]);
     }
   }, [articles, query]);
@@ -44,14 +44,9 @@ export default function SearchComponent() {
     navigate(`/search?q=${searchQuery}`);
   };
 
-  //   useEffect(() => {
-  //     setPageArticles(filteredArticles);
-  //   }, [filteredArticles]);
-
   useEffect(() => {
-    // console.log(query);
-    console.log(filteredArticles);
-  });
+    setPageArticles(filteredArticles);
+  }, [filteredArticles]);
 
   return (
     <div>
@@ -102,68 +97,73 @@ export default function SearchComponent() {
       </form>
       <div className="flex flex-col gap-y-6 justify-center items-center">
         {filteredArticles.length > 0 ? (
-          filteredArticles.map((article) => (
-            <div key={article._id} className="mb-6 flex flex-wrap">
-              <div className="mb-6 ml-auto w-full shrink-0 grow-0 basis-auto px-3 md:mb-0 md:w-3/12">
-                <div
-                  className="relative mb-6 overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-lg dark:shadow-black/20"
-                  data-te-ripple-init
-                  data-te-ripple-color="light"
-                >
-                  <img
-                    src={article.hero_img}
-                    className="w-[full] object-contain"
-                  />
-                  <a href="#!">
-                    <div className="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100 bg-[hsla(0,0%,98.4%,.15)]"></div>
-                  </a>
-                </div>
-              </div>
-
-              <div className="mb-6 mr-auto w-full shrink-0 grow-0 basis-auto px-3 md:mb-0 md:w-9/12 xl:w-7/12">
-                <h5 className="mb-3 text-lg font-bold">
-                  <Link
-                    to={`/articles/${article._id}`}
-                    className="hover:underline"
-                    onClick={() => window.scrollTo(0, 0)}
+          pageArticles
+            .map((article) => (
+              <div key={article._id} className="mb-6 flex flex-wrap">
+                <div className="mb-6 ml-auto w-full shrink-0 grow-0 basis-auto px-3 md:mb-0 md:w-3/12">
+                  <div
+                    className="relative mb-6 overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-lg dark:shadow-black/20"
+                    data-te-ripple-init
+                    data-te-ripple-color="light"
                   >
-                    {article.title}
-                  </Link>
-                </h5>
-                <div className="mb-3 flex items-center justify-center text-sm font-medium text-blue-600 gap-x-2 md:justify-start">
-                  {article.category === "NBA" ? (
-                    <img src={basketball}></img>
-                  ) : article.category === "NFL" ? (
-                    <img src={football}></img>
-                  ) : (
-                    <img src={baseball}></img>
-                  )}
-
-                  <h1>{article.category}</h1>
+                    <img
+                      src={article.hero_img}
+                      className="w-[full] object-contain"
+                    />
+                    <a href="#!">
+                      <div className="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100 bg-[hsla(0,0%,98.4%,.15)]"></div>
+                    </a>
+                  </div>
                 </div>
-                <p className="mb-6 text-neutral-500 dark:text-neutral-300">
-                  <small>{article.date}</small>
-                </p>
-                <p className="text-neutral-500 dark:text-neutral-300">
-                  {article.description}
-                </p>
+
+                <div className="mb-6 mr-auto w-full shrink-0 grow-0 basis-auto px-3 md:mb-0 md:w-9/12 xl:w-7/12">
+                  <h5 className="mb-3 text-lg font-bold">
+                    <Link
+                      to={`/articles/${article._id}`}
+                      className="hover:underline"
+                      onClick={() => window.scrollTo(0, 0)}
+                    >
+                      {article.title}
+                    </Link>
+                  </h5>
+                  <div className="mb-3 flex items-center justify-center text-sm font-medium text-blue-600 gap-x-2 md:justify-start">
+                    {article.category === "NBA" ? (
+                      <img src={basketball}></img>
+                    ) : article.category === "NFL" ? (
+                      <img src={football}></img>
+                    ) : (
+                      <img src={baseball}></img>
+                    )}
+
+                    <h1>{article.category}</h1>
+                  </div>
+                  <p className="mb-6 text-neutral-500 dark:text-neutral-300">
+                    <small>{article.date}</small>
+                  </p>
+                  <p className="text-neutral-500 dark:text-neutral-300">
+                    {article.description}
+                  </p>
+                </div>
+                <div className="m-auto w-[80%] h-[2px] bg-neutral-500 mt-4"></div>
               </div>
-              <div className="m-auto w-[80%] h-[2px] bg-neutral-500 mt-4"></div>
-            </div>
-          ))
+            ))
+            .slice(0, page * perPage)
         ) : (
           <div className="h-[400px] w-[400px] bg-slate-100 flex flex-col gap-y-4 justify-center items-center">
             <p>No current results. </p>
             <p>Enter search to see articles.</p>
           </div>
         )}
-        {/* {pageArticles ? (
-          <Pagination
-            items={filteredArticles}
-            pageLimit={10}
-            setPageItems={setPageArticles}
-          />
-        ) : null} */}
+        {pageArticles ? (
+          <div>
+            <button
+              className="font-bold px-3"
+              onClick={() => setPage(page + 1)}
+            >
+              Load More
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   );
