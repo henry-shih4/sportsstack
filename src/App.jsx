@@ -2,7 +2,7 @@ import Articles from "./components/Articles";
 import Article from "./Pages/Article";
 import "./App.css";
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -11,15 +11,17 @@ import { ArticleProvider } from "./context/ArticleContext";
 import Header from "./components/Header";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
+import SearchComponent from "./components/SearchComponent";
 
 function App() {
   return (
     <>
       <ArticleProvider>
-        <Header />
         <Router>
+          <Header />
           <Routes>
             {/* <Route exact path="/:pageNumber" element={<Articles />} /> */}
+            <Route path="/search" element={<SearchComponent />} />
             <Route path="/user" element={<Profile />} />
             <Route path="/:category/:pageNumber" element={<Articles />} />
             <Route exact path="articles/:articleId" element={<Article />} />

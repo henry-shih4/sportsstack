@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import LoginButton from "../components/LoginButton";
 import LogoutButton from "../components/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -6,10 +7,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 export default function Header() {
   const { user, isAuthenticated } = useAuth0();
 
-
   return (
     <>
-      <main className="flex flex-col justify-around pb-6" >
+      <main className="flex flex-col justify-around pb-6">
         <header className="flex justify-between">
           {isAuthenticated ? (
             <div>
@@ -23,6 +23,7 @@ export default function Header() {
               <div>{user.name}</div>
             </div>
           ) : null}
+          <Link to="/all/1"> Home </Link>
           <LoginButton />
           <LogoutButton />
         </header>
