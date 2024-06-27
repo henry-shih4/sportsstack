@@ -12,6 +12,7 @@ import Header from "./components/Header";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
 import SearchComponent from "./components/SearchComponent";
+import MarkdownTest from "./Pages/MarkdownTest";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route exact path="articles/:articleId" element={<Article />} />
             <Route path="*" element={<Navigate to="/all/1" replace />} />
             <Route path="/not-found" element={<NotFound />} />
+            <Route path="/test" element={<MarkdownTest />} />
           </Routes>
         </Router>
       </ArticleProvider>

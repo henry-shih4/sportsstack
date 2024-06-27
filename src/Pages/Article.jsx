@@ -5,6 +5,7 @@ import { ArticleContext } from "../context/ArticleContext";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import Comments from "../components/Comments";
+import ReactMarkDown from "react-markdown";
 
 export default function Article() {
   const [article, setArticle] = useState([]);
@@ -107,9 +108,9 @@ export default function Article() {
                     </p>
                     <div className="p-4 ">{article.date}</div>
 
-                    <p className=" mb-6  text-neutral-500 dark:text-neutral-300 max-h-[460px] overflow-x-hidden overflow-y-visible whitespace-pre-wrap tracking-wider">
-                      {article.content}
-                    </p>
+                    <div className=" mb-6  text-neutral-500 dark:text-neutral-300 max-h-[460px] overflow-x-hidden overflow-y-visible whitespace-pre-wrap tracking-wider px-4">
+                      <ReactMarkDown children={article.content} />
+                    </div>
                   </div>
                 </div>
               </div>
