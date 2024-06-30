@@ -10,9 +10,9 @@ export default function Header() {
   return (
     <>
       <main className="flex flex-col justify-around pb-6">
-        <header className="flex justify-between">
+        <header className="flex flex-col md:flex-row md:justify-between justify-center items-center">
           {isAuthenticated ? (
-            <div>
+            <div className="flex flex-col justify-center items-center">
               <img
                 className="rounded-full mb-"
                 height={58}
@@ -23,7 +23,7 @@ export default function Header() {
               <div>{user.name}</div>
             </div>
           ) : <div className="w-[58px]"></div>}
-          <Link to="/all/1">
+          <Link className="py-4" to="/all/1">
             <h1 className="text-3xl font-bold tracking-wider">SportsStack</h1>
             <p>Latest Sport Headlines</p>{" "}
           </Link>

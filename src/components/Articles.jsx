@@ -49,7 +49,7 @@ export default function Articles() {
   return (
     <div className="flex flex-col  gap-y-4">
       <div className="flex justify-center gap-x-4 font-bold text-xl py-4">
-        <ul className="hidden text-sm font-medium text-center text-gray-500 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
+        <ul className=" text-sm font-medium text-center text-gray-500 rounded-lg shadow flex dark:divide-gray-700 dark:text-gray-400">
           <li className="w-full focus-within:z-10">
             <NavLink
               to="/all/1"
