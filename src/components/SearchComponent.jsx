@@ -6,10 +6,6 @@ import baseball from "/images/baseball.svg";
 import basketball from "/images/basketball.svg";
 import football from "/images/football.svg";
 
-// const useQuery = () => {
-//   return new URLSearchParams(useLocation().search);
-// };
-
 export default function SearchComponent() {
   const { articles, loading, error } = useContext(ArticleContext);
   const queryParams = new URLSearchParams(location.search);
@@ -24,15 +20,12 @@ export default function SearchComponent() {
 
   useEffect(() => {
     if (query) {
-      console.log("query change");
-      console.log(query);
-      console.log(articles);
       let items = articles
         .filter((article) =>
           article.title.toLowerCase().includes(query.toLowerCase())
         )
         .sort((a, b) => new Date(b.date) - new Date(a.date));
-      console.log(items);
+
       setFilteredArticles(items);
     } else {
       setFilteredArticles([]);

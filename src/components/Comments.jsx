@@ -13,7 +13,7 @@ export default function Comments(props) {
   const getComments = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/v1/articles/${props.articleId}/comments`
+        `https://sports-stack.adaptable.app/api/v1/articles/${props.articleId}/comments`
       );
 
       if (response) {

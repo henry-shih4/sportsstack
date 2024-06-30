@@ -6,6 +6,7 @@ import Pagination from "./Pagination";
 import baseball from "/images/baseball.svg";
 import basketball from "/images/basketball.svg";
 import football from "/images/football.svg";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const categories = ["all", "NBA", "NFL", "MLB"];
 
@@ -27,12 +28,6 @@ export default function Articles() {
 
   useEffect(() => {
     if (category) {
-      // if (category in categories === false) {
-      //   console.log(category);
-      //   console.log("not a valid category");
-      //   navigate("/not-found");
-      // }
-
       if (categories.includes(category) === false) {
         console.log("not a valid category");
         navigate("/not-found");
@@ -54,8 +49,8 @@ export default function Articles() {
   return (
     <div className="flex flex-col  gap-y-4">
       <div className="flex justify-center gap-x-4 font-bold text-xl py-4">
-        <ul class="hidden text-sm font-medium text-center text-gray-500 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
-          <li class="w-full focus-within:z-10">
+        <ul className="hidden text-sm font-medium text-center text-gray-500 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
+          <li className="w-full focus-within:z-10">
             <NavLink
               to="/all/1"
               className={({ isActive }) =>
@@ -68,7 +63,7 @@ export default function Articles() {
               All
             </NavLink>
           </li>
-          <li class="w-full focus-within:z-10">
+          <li className="w-full focus-within:z-10">
             <NavLink
               to="/NBA/1"
               className={({ isActive }) =>
@@ -80,7 +75,7 @@ export default function Articles() {
               NBA
             </NavLink>
           </li>
-          <li class="w-full focus-within:z-10">
+          <li className="w-full focus-within:z-10">
             <NavLink
               to="/NFL/1"
               className={({ isActive }) =>
@@ -92,7 +87,7 @@ export default function Articles() {
               NFL
             </NavLink>
           </li>
-          <li class="w-full focus-within:z-10">
+          <li className="w-full focus-within:z-10">
             <NavLink
               to="/MLB/1"
               className={({ isActive }) =>
@@ -118,17 +113,17 @@ export default function Articles() {
           </h2>
 
           <form onSubmit={handleSearchSubmit} className="mb-10">
-            <div class="max-w-md mx-auto">
+            <div className="max-w-md mx-auto">
               <label
-                for="default-search"
-                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+                htmlFor="default-search"
+                className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
               >
                 Search
               </label>
-              <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <div className="relative">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg
-                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -136,9 +131,9 @@ export default function Articles() {
                   >
                     <path
                       stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                     />
                   </svg>
@@ -146,7 +141,7 @@ export default function Articles() {
                 <input
                   type="search"
                   id="default-search"
-                  class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   value={query}
                   onChange={(e) => {
                     setQuery(e.target.value);
@@ -155,7 +150,7 @@ export default function Articles() {
                 />
                 <button
                   type="submit"
-                  class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Search
                 </button>
@@ -172,7 +167,7 @@ export default function Articles() {
                       data-te-ripple-init
                       data-te-ripple-color="light"
                     >
-                      <img
+                      <LazyLoadImage
                         src={article.hero_img}
                         className="w-[full] object-contain"
                       />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import { ArticleContext } from "../context/ArticleContext";
 import axios from "axios";
@@ -21,27 +21,30 @@ export default function Article() {
     {
       e.preventDefault();
       try {
-        const token = await getAccessTokenSilently();
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        await axios.post(
-          `http://localhost:3000/api/v1/articles/${articleId}/comments`,
-          {
-            content: commentText,
-            authID: user.sub,
-            email: user.email,
-            name: user.name,
-            picture: user.picture,
-            username: user.nickname,
-          },
-          config
-        );
-        setCommentText("");
+        if (isAuthenticated) {
+          const token = await getAccessTokenSilently();
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+          await axios.post(
+            `https://sports-stack.adaptable.app/api/v1/articles/api/v1/articles/${articleId}/comments`,
+            {
+              content: commentText,
+              authID: user.sub,
+              email: user.email,
+              name: user.name,
+              picture: user.picture,
+              username: user.nickname,
+            },
+            config
+          );
+          setCommentText("");
+        } else {
+          setErrorMsg("Please login to comment");
+        }
       } catch (error) {
-        console.log(error.message);
         setErrorMsg(error.message);
       }
     }
@@ -52,20 +55,11 @@ export default function Article() {
       if (articleId) {
         const article = articles.find((article) => article._id === articleId);
         setArticle(article);
-        // if (!article) {
-        //   navigate("/not-found");
-        // }
       }
     } catch {
       navigate("/not-found");
     }
   }, [articles, articleId]);
-
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-    }
-  }, [user]);
 
   return (
     <>
@@ -110,6 +104,7 @@ export default function Article() {
 
                     <div className=" mb-6  text-neutral-500 dark:text-neutral-300 max-h-[460px] overflow-x-hidden overflow-y-visible whitespace-pre-wrap tracking-wider px-4">
                       <ReactMarkDown children={article.content} />
+                      <Link to={article.url} className="py-4 text-blue-500 ">Source</Link>
                     </div>
                   </div>
                 </div>
@@ -125,11 +120,13 @@ export default function Article() {
         >
           <label
             htmlFor="comment-text"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Comment
           </label>
-          {errMsg ? <p className="text-red-500">{errMsg}</p> : null}
+          {errMsg ? (
+            <p className="text-red-500">{"Something went wrong. Try again."}</p>
+          ) : null}
           <textarea
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}

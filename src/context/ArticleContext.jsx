@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { createContext } from "react";
 import axios from "axios";
 const ArticleContext = createContext();
@@ -10,13 +10,12 @@ function ArticleProvider(props) {
   const [error, setError] = useState("");
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-  useEffect(() => {
-    const getArticles = async () => {
+  const getArticles = useMemo(
+    () => async () => {
       try {
         setLoading(true);
-        
         const response = await axios.get(
-          "http://localhost:3000/api/v1/articles"
+          "https://sports-stack.adaptable.app/api/v1/articles"
         );
         if (response) {
           setArticles(response.data.data.articles);
@@ -26,10 +25,13 @@ function ArticleProvider(props) {
         console.error("Error fetching data: ", e);
         setError(e);
       }
-    };
+    },
+    []
+  );
 
+  useEffect(() => {
     getArticles();
-  }, []);
+  }, [getArticles]);
 
   return (
     <ArticleContext.Provider value={{ articles, loading, error }}>

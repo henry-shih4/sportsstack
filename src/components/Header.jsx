@@ -22,13 +22,14 @@ export default function Header() {
               />
               <div>{user.name}</div>
             </div>
-          ) : null}
-          <Link to="/all/1"> Home </Link>
+          ) : <div className="w-[58px]"></div>}
+          <Link to="/all/1">
+            <h1 className="text-3xl font-bold tracking-wider">SportsStack</h1>
+            <p>Latest Sport Headlines</p>{" "}
+          </Link>
           <LoginButton />
           <LogoutButton />
         </header>
-        <h1 className="text-3xl font-bold tracking-wider">SportsStack</h1>
-        <p>Latest Sport Headlines</p>
       </main>
     </>
   );
