@@ -27,6 +27,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       }}
       onRedirectCallback={onRedirectCallback}
       scope="openid profile email"
+      useRefreshTokens
+      cacheLocation="localstorage"
     >
       <App />
     </Auth0Provider>
