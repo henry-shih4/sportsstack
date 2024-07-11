@@ -9,6 +9,7 @@ export default function Comments(props) {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [showModal, setShowModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState({});
+  const [deleteComment, setDeleteComment] = useState(false);
 
   const getComments = async () => {
     try {
@@ -27,7 +28,7 @@ export default function Comments(props) {
 
   useEffect(() => {
     getComments();
-  }, [comments]);
+  }, [props.newComment, deleteComment]);
 
   const handleCommentDelete = async (commentId, authID) => {
     try {
@@ -38,7 +39,7 @@ export default function Comments(props) {
         },
       };
       const response = await axios.post(
-        `http://localhost:3000/api/v1/comments/${commentId}`,
+        `https://sports-stack.adaptable.app/api/v1/comments/${commentId}`,
         {
           authID: authID,
           commentId: commentId,
@@ -47,7 +48,10 @@ export default function Comments(props) {
       );
 
       if (response) {
-        console.log(response);
+       setDeleteComment(true)
+       setTimeout(() => {
+         setDeleteComment(false)
+       }, 1000)
       }
     } catch (error) {
       console.log(error);
@@ -100,7 +104,7 @@ export default function Comments(props) {
           </div>
         </div>
       ) : null}
-      <main className="flex flex-col gap-y-4 pt-8">
+      <main className="flex flex-col gap-y-4 pt-8 ">
         <h1 className="text-xl font-bold">Comments</h1>
         {comments.length <= 0 ? (
           <p>No comments yet</p>
@@ -110,12 +114,12 @@ export default function Comments(props) {
             .map((comment) => (
               <div
                 key={comment._id}
-                className="flex justify-between  items-center w-full"
+                className="flex justify-center items-center w-full md:justify-between  py-2 mb-4"
               >
-                <div className="flex gap-x-5 justify-center items-center">
-                
+                <div className="flex flex-col gap-x-5 justify-center items-center  md:flex-row">
                   <UserComment userId={comment.user} />
-                  <p className="text-sm">{comment.content}</p>
+                  <p className="text-sm p-2">{comment.content}</p>
+                  
                 </div>
 
                 {user && isAuthenticated ? (
@@ -133,6 +137,7 @@ export default function Comments(props) {
                         <img src={deleteButton} alt="delete-icon" />
                       </button>
                     ) : null}
+                   
                   </div>
                 ) : null}
               </div>

@@ -10,7 +10,6 @@ import baseball from "/images/baseball.svg";
 import basketball from "/images/basketball.svg";
 import football from "/images/football.svg";
 
-
 export default function Article() {
   const [article, setArticle] = useState([]);
   const { articleId } = useParams();
@@ -18,8 +17,10 @@ export default function Article() {
   const [commentText, setCommentText] = useState("");
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [errMsg, setErrorMsg] = useState("");
-
+  const [newComment, setNewComment] = useState(false);
   const navigate = useNavigate();
+
+
 
   const handleFormSubmission = async (e) => {
     {
@@ -45,6 +46,10 @@ export default function Article() {
             config
           );
           setCommentText("");
+          setNewComment(true);
+          setTimeout(() => {
+            setNewComment(false);
+          }, 1000);
         } else {
           setErrorMsg("Please login to comment");
         }
@@ -139,7 +144,7 @@ export default function Article() {
           </button>
         </form>
       </div>
-      <Comments articleId={articleId} />
+      <Comments articleId={articleId} newComment={newComment} />
     </>
   );
 }

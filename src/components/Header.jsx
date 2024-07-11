@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import LoginButton from "../components/LoginButton";
 import LogoutButton from "../components/LogoutButton";
@@ -22,7 +22,9 @@ export default function Header() {
               />
               <div>{user.name}</div>
             </div>
-          ) : <div className="w-[58px]"></div>}
+          ) : (
+            <div className="w-[58px]"></div>
+          )}
           <Link className="py-4" to="/all/1">
             <h1 className="text-3xl font-bold tracking-wider">SportsStack</h1>
             <p>Latest Sport Headlines</p>{" "}
