@@ -15,7 +15,7 @@ function ArticleProvider(props) {
       try {
         setLoading(true);
         const response = await axios.get(
-          "https://sports-stack.adaptable.app/api/v1/articles"
+          "https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/articles"
         );
         if (response) {
           setArticles(response.data.data.articles);

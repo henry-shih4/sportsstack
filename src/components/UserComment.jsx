@@ -7,7 +7,7 @@ export default function UserComment(props) {
   const getUserComment = async () => {
     try {
       const response = await axios.get(
-        `https://sports-stack.adaptable.app/api/v1/users/${props.userId}`
+        `https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/users/${props.userId}`
       );
 
       if (response) {
