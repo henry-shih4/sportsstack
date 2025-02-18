@@ -39,7 +39,7 @@ export default function Comments(props) {
         },
       };
       const response = await axios.post(
-        `https://sports-stack.adaptable.app/api/v1/comments/${commentId}`,
+        `https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/comments/${commentId}`,
         {
           authID: authID,
           commentId: commentId,
