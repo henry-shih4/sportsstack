@@ -10,14 +10,13 @@ function ArticleProvider(props) {
   const [error, setError] = useState("");
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-const url = 'https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/articles'
 
   const getArticles = useMemo(
     () => async () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:3000/api/v1/articles"
+          "https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/articles"
         );
         if (response) {
           setArticles(response.data.data.articles);
