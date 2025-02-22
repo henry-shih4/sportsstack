@@ -199,7 +199,7 @@ export default function Articles() {
                       <h1>{article.category}</h1>
                     </div>
                     <p className="mb-6 text-neutral-500 dark:text-neutral-300">
-                      <small>{article.date}</small>
+                      <small>{article.date_string}</small>
                     </p>
                     <p className="text-neutral-500 dark:text-neutral-300">
                       {article.description}

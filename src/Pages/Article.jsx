@@ -98,7 +98,7 @@ export default function Article() {
                       {article.category}
                     </div>
                     <div className="pb-4 flex justify-start underline">
-                      {article.date}
+                      {article.date_string}
                     </div>
 
                     <div className=" mb-6  text-neutral-500 dark:text-neutral-300 max-h-[460px] overflow-x-hidden overflow-y-visible whitespace-pre-wrap tracking-wider px-4 text-sm md:text-base">
