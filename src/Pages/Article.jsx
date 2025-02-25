@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useContext } from "react";
-import { ArticleContext } from "../context/ArticleContext";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import Comments from "../components/Comments";
@@ -13,7 +11,7 @@ import football from "/images/football.svg";
 export default function Article() {
   const [article, setArticle] = useState([]);
   const { articleId } = useParams();
-  const { articles } = useContext(ArticleContext);
+
   const [commentText, setCommentText] = useState("");
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [errMsg, setErrorMsg] = useState("");
@@ -60,15 +58,21 @@ export default function Article() {
   };
 
   useEffect(() => {
-    try {
-      if (articleId) {
-        const article = articles.find((article) => article._id === articleId);
-        setArticle(article);
+    const fetchArticle = async () => {
+      try {
+        if (articleId) {
+          const response = await axios.get(`http://localhost:3000/api/v1/articles/${articleId}`);
+          console.log(response);
+          setArticle(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching article:', error);
+        navigate("/not-found");
       }
-    } catch {
-      navigate("/not-found");
-    }
-  }, [articles, articleId]);
+    };
+
+    fetchArticle();
+  }, [articleId, navigate]);
 
   return (
     <>
@@ -86,8 +90,8 @@ export default function Article() {
                 </div>
                 <div className="w-full shrink-0 grow-0 basis-auto lg:w-10/12">
                   <div className="px-6  md:px-12 ">
-                    <h2 className="mb-4 text-2xl font-bold">{article.title}</h2>
-                    <div className="flex gap-x-2 py-2 justify-start items-center font-bold uppercase ">
+                    <h2 className="mb-4 text-2xl font-bold dark:text-gray-200">{article.title}</h2>
+                    <div className="flex gap-x-2 py-2 justify-start items-center font-bold uppercase dark:text-gray-200">
                       {article.category === "NBA" ? (
                         <img src={basketball}></img>
                       ) : article.category === "NFL" ? (
@@ -97,7 +101,7 @@ export default function Article() {
                       )}
                       {article.category}
                     </div>
-                    <div className="pb-4 flex justify-start underline">
+                    <div className="pb-4 flex justify-start underline dark:text-gray-200">
                       {article.date_string}
                     </div>
 

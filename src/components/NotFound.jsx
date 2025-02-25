@@ -16,7 +16,7 @@ export default function NotFound() {
           </p>
           <a
             rel="noopener noreferrer"
-            href="/"
+            href="/all/1"
             className="px-8 py-3 font-semibold rounded dark:bg-violet-600 dark:text-gray-50"
           >
             Back to homepage

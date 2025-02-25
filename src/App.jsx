@@ -7,7 +7,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { ArticleProvider } from "./context/ArticleContext";
 import Header from "./components/Header";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
@@ -17,21 +16,21 @@ import SearchComponent from "./components/SearchComponent";
 function App() {
   return (
     <>
-      <ArticleProvider>
         <Router>
           <Header />
           <Routes>
-            {/* <Route exact path="/:pageNumber" element={<Articles />} /> */}
-            <Route path="/search" element={<SearchComponent />} />
+          
+
             <Route path="/user" element={<Profile />} />
-            <Route path="/:category/:pageNumber" element={<Articles />} />
+
             <Route exact path="articles/:articleId" element={<Article />} />
-            <Route path="*" element={<Navigate to="/all/1" replace />} />
-            <Route path="/not-found" element={<NotFound />} />
-      
+        
+       <Route path="/search" element={<SearchComponent />} />
+        <Route path="/not-found" element={<NotFound />} />
+       <Route path="/:category/:page" element={<Articles />} />
+       <Route path="*" element={<Navigate to="/all/1" replace />} />
           </Routes>
         </Router>
-      </ArticleProvider>
     </>
   );
 }

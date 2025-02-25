@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import LoginButton from "../components/LoginButton";
 import LogoutButton from "../components/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Header() {
   const { user, isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
 
   return (
     <>
       <main className="flex flex-col justify-around pb-6">
         <header className="flex flex-col md:flex-row md:justify-between justify-center items-center">
           {isAuthenticated ? (
-            <div className="flex flex-col justify-center items-center">
+            <button onClick={() => navigate('/user')} className="flex flex-col justify-center items-center">
               <img
                 className="rounded-full mb-"
                 height={58}
@@ -21,7 +22,7 @@ export default function Header() {
                 alt={user?.name}
               />
               <div>{user.name}</div>
-            </div>
+            </button>
           ) : (
             <div className="w-[58px]"></div>
           )}
