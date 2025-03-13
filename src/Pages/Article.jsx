@@ -7,6 +7,7 @@ import ReactMarkDown from "react-markdown";
 import baseball from "/images/baseball.svg";
 import basketball from "/images/basketball.svg";
 import football from "/images/football.svg";
+const apiUrl = import.meta.env.VITE_API_URL; // Access the environment variable
 
 export default function Article() {
   const [article, setArticle] = useState([]);
@@ -32,7 +33,7 @@ export default function Article() {
             },
           };
           await axios.post(
-            `https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/articles/${articleId}/comments`,
+            `${apiUrl}/articles/${articleId}/comments`,
             {
               content: commentText,
               authID: user.sub,
@@ -61,8 +62,7 @@ export default function Article() {
     const fetchArticle = async () => {
       try {
         if (articleId) {
-          const response = await axios.get(`http://localhost:3000/api/v1/articles/${articleId}`);
-          console.log(response);
+          const response = await axios.get(`${apiUrl}/articles/${articleId}`);
           setArticle(response.data.data);
         }
       } catch (error) {

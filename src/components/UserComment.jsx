@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function UserComment(props) {
   const [userComment, setUserComment] = useState([]);
@@ -7,7 +8,7 @@ export default function UserComment(props) {
   const getUserComment = async () => {
     try {
       const response = await axios.get(
-        `https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/users/${props.userId}`
+        `{apiUrl}/users/${props.userId}`
       );
 
       if (response) {

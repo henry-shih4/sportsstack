@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import SearchBar from "./SearchBar";
+const apiUrl = import.meta.env.VITE_API_URL; // Access the environment variable
 
 
 
@@ -21,7 +22,7 @@ export default function SearchComponent() {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/articles?search=${query}`
+          `${apiUrl}/articles?search=${query}`
         );
         setSearchResults(response.data.data.articles);
       } catch (error) {

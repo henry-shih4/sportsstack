@@ -7,6 +7,7 @@ import football from "/images/football.svg";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import axios from 'axios';
 import SearchBar from "./SearchBar";
+const apiUrl = import.meta.env.VITE_API_URL; // Access the environment variable
 
 const categories = ["all", "NBA", "NFL", "MLB"];
 
@@ -54,7 +55,7 @@ useEffect(() => {
     // Fetch articles
     const fetchArticles = async () => {
       try {
-        const url = `http://localhost:3000/api/v1/articles${
+        const url = `${apiUrl}/articles/${
           category && category !== 'all' ? `?category=${category}` : ''
         }${category && category !== 'all' ? '&' : '?'}page=${currentPage}`;
 

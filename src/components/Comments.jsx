@@ -3,6 +3,7 @@ import axios from "axios";
 import UserComment from "./UserComment";
 import { useAuth0 } from "@auth0/auth0-react";
 import deleteButton from "/images/deleteButton.svg";
+const apiUrl = import.meta.env.VITE_API_URL; // Access the environment variable
 
 export default function Comments(props) {
   const [comments, setComments] = useState([]);
@@ -14,7 +15,7 @@ export default function Comments(props) {
   const getComments = async () => {
     try {
       const response = await axios.get(
-        `https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/articles/${props.articleId}/comments`
+        `${apiUrl}/articles/${props.articleId}/comments`
       );
 
       if (response) {
@@ -39,7 +40,7 @@ export default function Comments(props) {
         },
       };
       const response = await axios.post(
-        `https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1/comments/${commentId}`,
+        `${apiUrl}/comments}/${commentId}`,
         {
           authID: authID,
           commentId: commentId,
