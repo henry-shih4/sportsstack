@@ -25,3 +25,37 @@ dist-ssr
 
 #misc
 .env
+
+
+# Firebase config files
+.firebase/
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+ui-debug.log
+
+# Firebase cache
+.firebase/hosting.*.cache
+.runtimeconfig.json
+
+# Firebase service account keys and config
+**/service-account-key.json
+**/firebase-admin-key.json
+**/firebase-config.json
+**/googleServiceAccountKey.json
+
+# Firebase Local Emulator Suite data
+**/emulators/
+.emulator-data/
+
+# Firebase Functions
+functions/node_modules/
+functions/.env
+functions/lib/
+functions/.runtimeconfig.json
+functions/coverage/
+functions/.nyc_output/
+
+# Firebase Hosting cache
+.firebase/hosting.*.cache
+public/firebase-messaging-sw.js
