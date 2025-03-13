@@ -40,7 +40,7 @@ export default function Comments(props) {
         },
       };
       const response = await axios.post(
-        `${apiUrl}/comments}/${commentId}`,
+        `${apiUrl}/comments/${commentId}`,
         {
           authID: authID,
           commentId: commentId,
