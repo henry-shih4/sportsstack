@@ -8,7 +8,7 @@ export default function UserComment(props) {
   const getUserComment = async () => {
     try {
       const response = await axios.get(
-        `{apiUrl}/users/${props.userId}`
+        `${apiUrl}/users/${props.userId}`
       );
 
       if (response) {
@@ -16,7 +16,7 @@ export default function UserComment(props) {
         // setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error fetching user comment:', error);
     }
   };
 

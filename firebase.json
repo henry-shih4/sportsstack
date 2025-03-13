@@ -1,9 +1,6 @@
 {
   "hosting": {
     "public": "dist",
-    "environment": {
-      "VITE_API_URL": "https://sports-stack-backend-gzabcuapa2a8gafm.canadacentral-01.azurewebsites.net/api/v1"
-    },
     "ignore": [
       "firebase.json",
       "**/.*",
