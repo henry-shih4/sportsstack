@@ -1,25 +1,17 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function LoginButton() {
+export default function LoginButton() {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
+  if (isAuthenticated) return null;
+
   return (
-    !isAuthenticated && (
-      <button
-        className="w-[84px] text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 max-h-[46px] my-2 md:my-0"
-        onClick={() =>
-          loginWithRedirect({
-            appState: {
-              returnTo: window.location.pathname,
-            },
-          })
-        }
-      >
-        Sign In
-      </button>
-    )
+    <button
+      onClick={() => loginWithRedirect()}
+      className="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800"
+    >
+      Log In
+    </button>
   );
 }
-
-export default LoginButton;

@@ -10,7 +10,8 @@ import football from "/images/football.svg";
 const apiUrl = import.meta.env.VITE_API_URL; // Access the environment variable
 
 export default function Article() {
-  const [article, setArticle] = useState([]);
+  const [article, setArticle] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { articleId } = useParams();
 
   const [commentText, setCommentText] = useState("");
@@ -18,8 +19,6 @@ export default function Article() {
   const [errMsg, setErrorMsg] = useState("");
   const [newComment, setNewComment] = useState(false);
   const navigate = useNavigate();
-
-
 
   const handleFormSubmission = async (e) => {
     {
@@ -60,6 +59,7 @@ export default function Article() {
 
   useEffect(() => {
     const fetchArticle = async () => {
+      setIsLoading(true);
       try {
         if (articleId) {
           const response = await axios.get(`${apiUrl}/articles/${articleId}`);
@@ -68,6 +68,8 @@ export default function Article() {
       } catch (error) {
         console.error('Error fetching article:', error);
         navigate("/not-found");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -75,80 +77,102 @@ export default function Article() {
   }, [articleId, navigate]);
 
   return (
-    <>
-      {article ? (
-        <div>
-          <section className="flex justify-center items-center ">
-            <div className=" block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-              <div className="w-[100%] flex flex-wrap justify-center items-center py-4 md:px-8 ">
-                <div className="w-5/12 min-w-[300px] shrink-0 grow-0 basis-auto lg:flex lg:w-6/12 xl:w-5/12">
+    <div className="mb-4">
+      {isLoading ? (
+        <div className="flex justify-center items-center min-h-[50vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+      ) : article ? (
+        <>
+          <section className="flex justify-center items-center mb-8 min-h-[60vh]">
+            <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg overflow-hidden p-6">
+              <div className="flex flex-col lg:flex-row">
+                {/* Image Section */}
+                <div className="lg:w-1/2 flex justify-center items-center flex-col ">
+                <h1 className="text-3xl font-bold text-gray-900 mb-4 hover:text-blue-600 transition-colors">
+                    {article.title}
+                  </h1>
                   <img
                     src={article.hero_img}
-                    alt="Trendy Pants and Shoes"
-                    className="pb-4 w-full object-fill rounded-t-lg lg:rounded-tr-none lg:rounded-bl-lg"
+                    alt={article.title}
+                    className="rounded-lg object-scale-downtransform transition-transform duration-300"
                   />
                 </div>
-                <div className="w-full shrink-0 grow-0 basis-auto lg:w-10/12">
-                  <div className="px-6  md:px-12 ">
-                    <h2 className="mb-4 text-2xl font-bold dark:text-gray-200">{article.title}</h2>
-                    <div className="flex gap-x-2 py-2 justify-start items-center font-bold uppercase dark:text-gray-200">
-                      {article.category === "NBA" ? (
-                        <img src={basketball}></img>
-                      ) : article.category === "NFL" ? (
-                        <img src={football}></img>
-                      ) : (
-                        <img src={baseball}></img>
-                      )}
-                      {article.category}
-                    </div>
-                    <div className="pb-4 flex justify-start underline dark:text-gray-200">
-                      {article.date_string}
-                    </div>
 
-                    <div className=" mb-6  text-neutral-500 dark:text-neutral-300 max-h-[460px] overflow-x-hidden overflow-y-visible whitespace-pre-wrap tracking-wider px-4 text-sm md:text-base">
-                      <ReactMarkDown children={article.content} />
-                      <Link to={article.url} className="py-4 text-blue-500 ">
-                        Source
-                      </Link>
+                {/* Content Section */}
+                <div className="lg:w-1/2 p-6 lg:p-8">
+                  <div className="flex justify-center items-center gap-2 mb-4">
+                    <div className="flex items-center bg-blue-100 rounded-full px-4 py-1">
+                      {article.category === "NBA" ? (
+                        <img src={basketball} className="w-5 h-5 mr-2" alt="basketball" />
+                      ) : article.category === "NFL" ? (
+                        <img src={football} className="w-5 h-5 mr-2" alt="football" />
+                      ) : (
+                        <img src={baseball} className="w-5 h-5 mr-2" alt="baseball" />
+                      )}
+                      <span className="text-blue-800 font-semibold">{article.category}</span>
                     </div>
+                    <span className="text-gray-500 text-sm">{article.date_string}</span>
+                  </div>
+
+
+                  <div className="prose max-w-none scrollbar-custom overflow-y-auto max-h-[400px] pr-4">
+                    <ReactMarkDown children={article.content} />
+                    <a 
+                      href={article.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center mt-4 text-blue-600 hover:text-blue-800"
+                    >
+                      Read more at source
+                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
           </section>
-        </div>
+
+          {/* Comment Form Section */}
+          <div className="max-w-4xl mx-auto">
+            <form
+              className="bg-white rounded-lg shadow-lg p-6 mb-8"
+              onSubmit={handleFormSubmission}
+            >
+              <label
+                htmlFor="comment-text"
+                className="block mb-4 text-lg font-medium text-gray-900"
+              >
+                Add a Comment
+              </label>
+              {errMsg && (
+                <p className="text-red-500 mb-4 p-3 bg-red-50 rounded-lg">{errMsg}</p>
+              )}
+              <textarea
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                id="comment-text"
+                rows="4"
+                className="block p-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Share your thoughts..."
+              />
+              <button
+                className="mt-4 px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors"
+                type="submit"
+              >
+                Submit Comment
+              </button>
+            </form>
+          </div>
+
+          {/* Comments Section */}
+          <div className="max-w-4xl mx-auto">
+            <Comments articleId={articleId} newComment={newComment} />
+          </div>
+        </>
       ) : null}
-      <div>
-        <form
-          className="flex flex-col justify-center items-center gap-y-4 pt-8"
-          onSubmit={handleFormSubmission}
-        >
-          <label
-            htmlFor="comment-text"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Comment
-          </label>
-          {errMsg ? (
-            <p className="text-red-500">{"Something went wrong. Try again."}</p>
-          ) : null}
-          <textarea
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            id="comment-text"
-            rows="4"
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Write your thoughts here..."
-          ></textarea>
-          <button
-            className="w-[100px] py-2.5  text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
-            type="submit"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
-      <Comments articleId={articleId} newComment={newComment} />
-    </>
+    </div>
   );
 }

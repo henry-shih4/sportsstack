@@ -24,20 +24,23 @@ export default function UserComment(props) {
     getUserComment();
   }, [props.userId]);
 
+
   return (
     <>
+    
       {userComment ? (
         <>
-          <section className="flex items-center gap-x-6 min-w-[180px]">
+          <section className="flex items-center gap-4 animate-fade-in">
             <img
-              className="rounded-full"
+              className="rounded-full object-cover w-12 h-12 ring-2 ring-gray-100"
               src={userComment.picture}
-              width={56}
-              height={56}
+              width={48}
+              height={48}
+              alt={userComment.username}
             />
-            <div className="flex flex-col gap-y-2">
-              <div className="text-md">{userComment.username}</div>
-              <div className="text-xs">{userComment.name}</div>
+            <div className="flex flex-col">
+              <div className="font-medium text-gray-900">{userComment.username}</div>
+              <div className="text-sm text-gray-500">{userComment.name}</div>
             </div>
           </section>
         </>
